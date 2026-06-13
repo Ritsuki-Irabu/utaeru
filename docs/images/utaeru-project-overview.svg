@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">ウタエル プロジェクト設計概要</title>
+  <desc id="desc">カラオケ直前に音を出さず、BPMの視覚フィードバックで符割りを確認するPWAアプリ「ウタエル」の課題、価値、機能、画面、技術構成をまとめたやわらかい印象の概要図。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#8c735d" flood-opacity="0.14"/>
+    </filter>
+    <filter id="smallShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#8c735d" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7ec"/>
+      <stop offset="58%" stop-color="#ffe3cc"/>
+      <stop offset="100%" stop-color="#ffd39a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffb36a"/>
+      <stop offset="100%" stop-color="#ff7f50"/>
+    </linearGradient>
+    <style>
+      .bg { fill: #f8efe4; }
+      .paper { fill: #fffaf3; }
+      .panel { fill: #fff7ec; stroke: #ead7c1; stroke-width: 2; }
+      .panel2 { fill: #ffffff; stroke: #ead7c1; stroke-width: 2; }
+      .ink { fill: #3d3028; }
+      .muted { fill: #7b695d; }
+      .soft { fill: #f2dfcc; }
+      .orange { fill: #ff8a55; }
+      .coral { fill: #ffb7a5; }
+      .mint { fill: #b8dccd; }
+      .sage { fill: #dce6c5; }
+      .cream { fill: #fff0c9; }
+      .lav { fill: #ded8f0; }
+      .line { stroke: #d8b995; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #e5cdb4; stroke-width: 2; fill: none; stroke-linecap: round; }
+      .dash { stroke-dasharray: 8 10; }
+      .title { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 74px; font-weight: 900; letter-spacing: 0; }
+      .subtitle { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 30px; font-weight: 700; letter-spacing: 0; }
+      .h2 { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: 0; }
+      .h3 { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 22px; font-weight: 800; letter-spacing: 0; }
+      .body { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 20px; font-weight: 600; letter-spacing: 0; }
+      .small { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0; }
+      .tiny { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0; }
+      .foot { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0; }
+      .fit { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0; }
+      .sceneTitle { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 26px; font-weight: 900; letter-spacing: 0; }
+      .sceneNote { font-family: "Yu Gothic", "Hiragino Sans", "Meiryo", system-ui, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0; }
+      .mono { font-family: "Cascadia Mono", "Consolas", monospace; font-size: 18px; font-weight: 700; letter-spacing: 0; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="1000"/>
+  <circle cx="118" cy="128" r="68" fill="#ffe3cc" opacity="0.65"/>
+  <circle cx="1486" cy="164" r="96" fill="#fff0c9" opacity="0.75"/>
+  <circle cx="1390" cy="884" r="82" fill="#ffddd3" opacity="0.55"/>
+  <path d="M98 850 C150 812, 204 835, 250 790" class="thin dash"/>
+  <path d="M1298 270 C1360 226, 1410 242, 1466 195" class="thin dash"/>
+
+  <g transform="translate(70 55)">
+    <rect x="0" y="0" width="1460" height="210" rx="44" fill="url(#hero)" filter="url(#shadow)"/>
+    <g transform="translate(58 28)">
+      <text x="0" y="62" class="title ink">ウタエル</text>
+      <text x="4" y="110" class="subtitle muted">符割り確認特化型カラオケ支援PWA</text>
+      <text x="4" y="148" class="body ink">音を出さずに、BPMの視覚フィードバックで歌い出しの不安を軽くする。</text>
+    </g>
+    <g transform="translate(1048 54)">
+      <rect x="0" y="0" width="356" height="106" rx="30" fill="#fffaf3" opacity="0.68"/>
+      <rect x="18" y="17" width="122" height="30" rx="15" fill="#ffd39a" opacity="0.9"/>
+      <text x="79" y="37" class="tiny ink" text-anchor="middle">利用シーン</text>
+      <text x="178" y="69" class="sceneTitle ink" text-anchor="middle">カラオケ直前</text>
+      <text x="178" y="94" class="sceneNote muted" text-anchor="middle">予約前 / 自分の番が近い時</text>
+    </g>
+  </g>
+
+  <g transform="translate(90 315)">
+    <rect x="0" y="0" width="330" height="235" rx="30" class="panel" filter="url(#smallShadow)"/>
+    <circle cx="48" cy="48" r="22" class="coral"/>
+    <text x="82" y="56" class="h2 ink">課題</text>
+    <text x="36" y="105" class="body ink">久しぶりの曲で</text>
+    <text x="36" y="135" class="body ink">歌い出しが不安</text>
+    <path d="M38 170 L292 170" class="thin"/>
+    <text x="36" y="198" class="small muted">テンポ / イントロ</text>
+    <text x="36" y="222" class="small muted">音出しづらさ</text>
+  </g>
+
+  <g transform="translate(455 315)">
+    <rect x="0" y="0" width="330" height="235" rx="30" class="panel2" filter="url(#smallShadow)"/>
+    <circle cx="48" cy="48" r="22" class="mint"/>
+    <text x="82" y="56" class="h2 ink">解決</text>
+    <text x="36" y="105" class="body ink">BPMに合わせた</text>
+    <text x="36" y="135" class="body ink">4拍の視覚リズム</text>
+    <g transform="translate(54 164)">
+      <circle cx="22" cy="22" r="22" fill="#ff8a55"/>
+      <circle cx="78" cy="22" r="16" fill="#ffd39a"/>
+      <circle cx="130" cy="22" r="16" fill="#b8dccd"/>
+      <circle cx="182" cy="22" r="16" fill="#ded8f0"/>
+      <rect x="36" y="50" width="132" height="30" rx="15" fill="#fff7ec" stroke="#ead7c1" stroke-width="2"/>
+      <text x="102" y="70" class="fit muted" text-anchor="middle">無音で確認</text>
+    </g>
+  </g>
+
+  <g transform="translate(820 315)">
+    <rect x="0" y="0" width="330" height="235" rx="30" class="panel" filter="url(#smallShadow)"/>
+    <circle cx="48" cy="48" r="22" class="cream"/>
+    <text x="82" y="56" class="h2 ink">価値</text>
+    <text x="36" y="105" class="body ink">「何歌おう」と</text>
+    <text x="36" y="135" class="body ink">歌い出しの迷いを短縮</text>
+    <path d="M38 170 L292 170" class="thin"/>
+    <text x="36" y="198" class="small muted">マイリスト / タグ</text>
+    <text x="36" y="222" class="small muted">メモで管理</text>
+  </g>
+
+  <g transform="translate(1185 315)">
+    <rect x="0" y="0" width="325" height="235" rx="30" class="panel2" filter="url(#smallShadow)"/>
+    <circle cx="48" cy="48" r="22" class="lav"/>
+    <text x="82" y="56" class="h2 ink">差別化</text>
+    <g transform="translate(34 94)">
+      <rect x="0" y="0" width="112" height="40" rx="20" class="soft"/>
+      <text x="18" y="27" class="tiny muted">音楽アプリ</text>
+      <text x="134" y="27" class="small muted">音再生 / 練習</text>
+      <rect x="0" y="76" width="112" height="40" rx="20" fill="url(#accent)"/>
+      <text x="31" y="103" class="tiny" fill="#fffaf3">ウタエル</text>
+      <text x="134" y="103" class="small ink">無音 / 直前支援</text>
+    </g>
+  </g>
+
+  <path d="M420 433 L455 433" class="line"/>
+  <path d="M785 433 L820 433" class="line"/>
+  <path d="M1150 433 L1185 433" class="line"/>
+
+  <g transform="translate(90 610)">
+    <rect x="0" y="0" width="535" height="270" rx="34" class="paper" filter="url(#shadow)"/>
+    <text x="36" y="56" class="h2 ink">主要機能</text>
+    <g transform="translate(36 86)">
+      <rect x="0" y="0" width="140" height="66" rx="20" fill="#ffe3cc"/>
+      <text x="24" y="28" class="small ink">認証</text>
+      <text x="24" y="50" class="tiny muted">Sanctum</text>
+      <rect x="168" y="0" width="140" height="66" rx="20" fill="#fff0c9"/>
+      <text x="192" y="28" class="small ink">曲マスタ</text>
+      <text x="192" y="50" class="tiny muted">admin CRUD</text>
+      <rect x="336" y="0" width="140" height="66" rx="20" fill="#dce6c5"/>
+      <text x="360" y="28" class="small ink">Spotify</text>
+      <text x="360" y="50" class="tiny muted">BPM取得</text>
+      <rect x="0" y="92" width="140" height="66" rx="20" fill="#ded8f0"/>
+      <text x="24" y="120" class="small ink">マイリスト</text>
+      <text x="24" y="142" class="tiny muted">曲 / メモ</text>
+      <rect x="168" y="92" width="140" height="66" rx="20" fill="#dff0eb"/>
+      <text x="192" y="120" class="small ink">タグ</text>
+      <text x="192" y="142" class="tiny muted">整理</text>
+      <rect x="336" y="92" width="140" height="66" rx="20" fill="#ffd9cf"/>
+      <text x="360" y="120" class="small ink">CSV</text>
+      <text x="360" y="142" class="tiny muted">出力</text>
+    </g>
+  </g>
+
+  <g transform="translate(665 610)">
+    <rect x="0" y="0" width="390" height="270" rx="34" class="paper" filter="url(#shadow)"/>
+    <text x="34" y="56" class="h2 ink">画面導線</text>
+    <g transform="translate(36 86)">
+      <rect x="0" y="0" width="130" height="54" rx="20" fill="#ffe3cc"/>
+      <text x="34" y="35" class="small ink">ログイン</text>
+      <path d="M142 27 L184 27" class="line"/>
+      <rect x="192" y="0" width="130" height="54" rx="20" fill="#fff0c9"/>
+      <text x="222" y="35" class="small ink">マイリスト</text>
+      <path d="M257 66 L257 105" class="line"/>
+      <rect x="192" y="114" width="130" height="54" rx="20" fill="#dff0eb"/>
+      <text x="226" y="149" class="small ink">曲検索</text>
+      <path d="M180 141 L142 141" class="line"/>
+      <rect x="0" y="114" width="130" height="54" rx="20" fill="#ded8f0"/>
+      <text x="24" y="149" class="small ink">リズム再生</text>
+    </g>
+  </g>
+
+  <g transform="translate(1095 610)">
+    <rect x="0" y="0" width="415" height="270" rx="34" class="paper" filter="url(#shadow)"/>
+    <text x="34" y="56" class="h2 ink">技術構成</text>
+    <g transform="translate(36 74)">
+      <rect x="0" y="0" width="330" height="42" rx="16" fill="#dff0eb"/>
+      <text x="24" y="27" class="fit ink">Vue 3 + Vite + PWA</text>
+      <path d="M165 49 L165 68" class="thin dash"/>
+      <rect x="0" y="74" width="330" height="42" rx="16" fill="#ffe3cc"/>
+      <text x="24" y="101" class="fit ink">Laravel 11 API + Sanctum</text>
+      <path d="M165 123 L165 142" class="thin dash"/>
+      <rect x="0" y="148" width="158" height="42" rx="16" fill="#fff0c9"/>
+      <text x="79" y="175" class="fit ink" text-anchor="middle">MySQL</text>
+      <rect x="172" y="148" width="158" height="42" rx="16" fill="#ded8f0"/>
+      <text x="251" y="175" class="fit ink" text-anchor="middle">Spotify</text>
+    </g>
+  </g>
+
+  <g transform="translate(120 930)">
+    <rect x="0" y="-42" width="1360" height="76" rx="30" fill="#fffaf3" opacity="0.9"/>
+    <text x="34" y="-10" class="foot muted">対象ユーザー: 歌うことは好きだが、直前の歌い出しに不安がある20〜35歳</text>
+    <text x="34" y="16" class="foot muted">権限: admin は曲・タグ管理、user はマイリスト管理</text>
+  </g>
+</svg>
