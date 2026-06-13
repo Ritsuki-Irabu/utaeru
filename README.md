@@ -8,7 +8,7 @@
 
 ## 企画概要
 
-![ウタエル プロジェクト概要](docs/images/utaeru-project-overview.svg)
+![ウタエル プロジェクト概要](docs/images/utaeru-project-overview-imagegen-v2.png)
 
 ---
 
