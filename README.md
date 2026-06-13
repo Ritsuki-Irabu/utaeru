@@ -6,6 +6,12 @@
 
 ---
 
+## 企画概要
+
+![ウタエル プロジェクト概要](docs/images/utaeru-project-overview.svg)
+
+---
+
 ## 概要
 
 | 一般的な音楽アプリ | ウタエル |
