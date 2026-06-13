@@ -41,6 +41,7 @@
 
 | 項目 | 選択 | 理由 |
 | --- | --- | --- |
+| 開発環境 | WSL2 + Docker + Laravel Sail | 実務に近い再現性の高い環境で学習 |
 | バックエンド | Laravel 11（PHP 8.2） | 案件直結・最新版で学習 |
 | 認証 | Laravel Sanctum | SPA・API向け、案件直結 |
 | 権限管理 | Spatie Permission | admin/user のロール管理 |

@@ -20,17 +20,22 @@ gh issue create --repo "$REPO" \
   --title "#1 【backend】環境構築" \
   --label "backend,learning" \
   --body "## やること
-- [ ] Laravel 11 インストール
-- [ ] MySQL 接続設定（.env）
+- [ ] WSL2 + Docker Desktop の準備
+- [ ] Laravel Sail で Laravel 11 環境構築
+- [ ] Sail の MySQL 接続設定（.env）
 - [ ] Laravel Sanctum インストール・設定
 - [ ] Spatie Permission インストール・設定
 - [ ] Laravel Excel インストール
-- [ ] 動作確認（\`php artisan serve\`）
+- [ ] 動作確認（\`./vendor/bin/sail up -d\`）
+- [ ] 動作確認（\`./vendor/bin/sail artisan migrate\`）
 
 ## 実務ワンポイント
 \`\`\`
 本番環境では .env をGitに含めない。
 .env.example に項目だけ残しておくのが慣例。
+このプロジェクトの開発環境は WSL2 + Docker + Laravel Sail を前提にする。
+Artisan / Composer / npm は原則として Sail 経由で実行する。
+例：./vendor/bin/sail artisan migrate
 Sanctum のインストール後は config/sanctum.php の
 stateful ドメイン設定を忘れずに確認すること。
 \`\`\`
@@ -114,7 +119,7 @@ gh issue create --repo "$REPO" \
 \`\`\`
 Spatie の Role と Permission はキャッシュされる。
 ロールを変更しても反映されない場合は
-php artisan permission:cache-reset を実行する。
+./vendor/bin/sail artisan permission:cache-reset を実行する。
 本番デプロイ後も同様。
 \`\`\`
 
@@ -202,7 +207,7 @@ gh issue create --repo "$REPO" \
 多対多の付け外しは sync() メソッドが便利。
 \$mySong->tags()->sync(\$request->tag_ids);
 これで渡したID以外は自動削除・追加される。
-Policy の作成は php artisan make:policy で生成できる。
+Policy の作成は ./vendor/bin/sail artisan make:policy で生成できる。
 \`\`\`
 
 ## 学習メモ（実装後に記入）

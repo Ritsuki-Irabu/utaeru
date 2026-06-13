@@ -13,6 +13,8 @@
 
 **構成：** Laravel 11（API）+ Vue.js 3（PWA）
 
+**開発環境：** WSL2 + Docker Desktop + Laravel Sail
+
 ---
 
 ## 🎓 この個人開発の目的
@@ -171,6 +173,13 @@ commit / push / PR / Issue更新などは、学習の主対象ではないため
 
 ## 🏗️ 技術スタック
 
+### 開発環境
+
+- WSL2
+- Docker Desktop（WSL2 backend）
+- Laravel Sail
+- VS Code + Remote WSL（推奨）
+
 ### バックエンド
 
 - PHP 8.2 / Laravel 11
@@ -238,6 +247,10 @@ commit / push / PR / Issue更新などは、学習の主対象ではないため
 
 ### バックエンド（Laravel）
 
+- Laravel / Composer / npm / artisan は原則として Sail 経由で実行する
+- 例：`./vendor/bin/sail artisan migrate`
+- 例：`./vendor/bin/sail composer require laravel/sanctum`
+- 例：`./vendor/bin/sail npm install`
 - コントローラーはスリムに保つ（ロジックはServiceに切り出す）
 - バリデーションは必ずFormRequestを使う
 - レスポンスは必ずAPI Resourceで整形する
@@ -284,6 +297,8 @@ Issueを完了したら、以下を確認・更新します。
 
 ## ⚠️ 注意事項
 
+- 開発環境は WSL2 + Docker + Laravel Sail を前提とする
+- `.env.example` のDB接続値は Sail の `mysql` サービス向けにする
 - `.env` はGitに含めない（`.env.example` のみコミット）
 - Spotify APIキーは必ず `.env` で管理する
 - マイリスト操作は必ずPolicyで本人確認を行う

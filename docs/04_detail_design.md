@@ -961,14 +961,23 @@ APP_NAME=ウタエル
 APP_URL=http://localhost:8000
 
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=utaeru
-DB_USERNAME=root
-DB_PASSWORD=
+DB_USERNAME=sail
+DB_PASSWORD=password
 
 SPOTIFY_CLIENT_ID=your_spotify_client_id
 SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+```
+
+Laravel Sail を前提とするため、LaravelコンテナからMySQLへ接続する `DB_HOST` は `mysql` とする。
+Artisan / Composer / npm は原則として Sail 経由で実行する。
+
+```bash
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail composer require laravel/sanctum
+./vendor/bin/sail npm install
 ```
 
 #### フロントエンド（.env）

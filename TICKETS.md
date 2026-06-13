@@ -36,3 +36,13 @@
 | #14 | 【frontend】管理者画面（曲マスタ管理） | frontend, learning | ⬜ |
 
 > ステータス凡例：⬜ 未着手 / 🔄 対応中 / ✅ 完了
+
+---
+
+## 環境構築メモ
+
+Issue #1 は WSL2 + Docker Desktop + Laravel Sail を前提に進める。
+
+- Laravel / Composer / npm / artisan は原則として Sail 経由で実行する
+- DB接続は Sail の `mysql` サービスを使用する
+- `.env.example` のDB接続値は `DB_HOST=mysql`, `DB_USERNAME=sail`, `DB_PASSWORD=password` を基準にする

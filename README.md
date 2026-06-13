@@ -27,6 +27,7 @@
 | 領域 | 技術 |
 | --- | --- |
 | バックエンド | PHP 8.2 / Laravel 11 |
+| 開発環境 | WSL2 / Docker Desktop / Laravel Sail |
 | 認証 | Laravel Sanctum |
 | 権限管理 | Spatie Laravel Permission |
 | CSV出力 | Maatwebsite Laravel Excel |
@@ -44,33 +45,35 @@
 
 ### 必要環境
 
-- PHP 8.2+
-- Composer
-- Node.js 18+
-- MySQL 8.0
+- WSL2
+- Docker Desktop
+- Docker Desktop の WSL2 backend
+- VS Code + Remote WSL（推奨）
+
+PHP / Composer / MySQL / Node.js は、原則として Laravel Sail のコンテナ内で利用する。
 
 ### バックエンド
 
+Laravel / Sail の初回導入は Issue #1 で実施する。導入後の通常操作は以下。
+
 ```bash
-composer install
+./vendor/bin/sail up -d
 cp .env.example .env
-php artisan key:generate
+./vendor/bin/sail artisan key:generate
 ```
 
 `.env` を編集してDB接続情報・Spotify APIキーを設定する。
 
 ```bash
-php artisan migrate --seed
-php artisan serve
+./vendor/bin/sail artisan migrate --seed
 ```
 
 ### フロントエンド
 
 ```bash
-cd frontend
-npm install
-cp .env.example .env
-npm run dev
+./vendor/bin/sail npm install --prefix frontend
+cp frontend/.env.example frontend/.env
+./vendor/bin/sail npm run dev --prefix frontend
 ```
 
 ---
@@ -81,8 +84,9 @@ npm run dev
 
 ```
 DB_DATABASE=utaeru
-DB_USERNAME=root
-DB_PASSWORD=
+DB_HOST=mysql
+DB_USERNAME=sail
+DB_PASSWORD=password
 
 SPOTIFY_CLIENT_ID=your_client_id
 SPOTIFY_CLIENT_SECRET=your_client_secret
