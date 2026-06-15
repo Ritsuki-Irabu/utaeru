@@ -6,7 +6,7 @@
 
 ---
 
-## 1. バックエンド詳細設計（Laravel 11）
+## 1. バックエンド詳細設計（Laravel 13）
 
 ### 1.1 ルーティング定義（routes/api.php）
 
@@ -971,7 +971,7 @@ SPOTIFY_CLIENT_ID=your_spotify_client_id
 SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
 ```
 
-Laravel Sail を前提とするため、LaravelコンテナからMySQLへ接続する `DB_HOST` は `mysql` とする。
+Laravel 13 / PHP 8.3+ / Laravel Sail を前提とするため、LaravelコンテナからMySQLへ接続する `DB_HOST` は `mysql` とする。
 Artisan / Composer / npm は原則として Sail 経由で実行する。
 
 ```bash

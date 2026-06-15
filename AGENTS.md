@@ -11,7 +11,7 @@
 
 **目的：** カラオケ直前に音を出さずBPM振動でリズムを確認するアプリ
 
-**構成：** Laravel 11（API）+ Vue.js 3（PWA）
+**構成：** Laravel 13（API）+ Vue.js 3（PWA）
 
 **開発環境：** WSL2 + Docker Desktop + Laravel Sail
 
@@ -182,12 +182,12 @@ commit / push / PR / Issue更新などは、学習の主対象ではないため
 
 ### バックエンド
 
-- PHP 8.2 / Laravel 11
+- PHP 8.3+ / Laravel 13
 - Laravel Sanctum（トークン認証）
 - Spatie Laravel Permission（ロール管理）
 - Laravel Excel / Maatwebsite（CSV出力）
 - Spotify Web API（BPM取得）
-- MySQL 8.0
+- MySQL 8.4
 
 ### フロントエンド
 
@@ -206,7 +206,7 @@ commit / push / PR / Issue更新などは、学習の主対象ではないため
 ```
 フェーズ：1 - 環境構築
 対応中Issue：#1
-ステータス：未着手
+ステータス：完了
 ```
 
 ---
@@ -215,7 +215,7 @@ commit / push / PR / Issue更新などは、学習の主対象ではないため
 
 | フェーズ | 内容 | Issue番号 | ステータス |
 | --- | --- | --- | --- |
-| 1 | 環境構築 | #1 | ⬜ 未着手 |
+| 1 | 環境構築 | #1 | ✅ 完了 |
 | 2 | DB設計・マイグレーション | #2 | ⬜ 未着手 |
 | 3 | 認証API（Sanctum） | #3 | ⬜ 未着手 |
 | 4 | ロール設定（Spatie） | #4 | ⬜ 未着手 |

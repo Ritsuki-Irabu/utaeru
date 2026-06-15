@@ -180,7 +180,7 @@
       <text x="24" y="27" class="fit ink">Vue 3 + Vite + PWA</text>
       <path d="M165 49 L165 68" class="thin dash"/>
       <rect x="0" y="74" width="330" height="42" rx="16" fill="#ffe3cc"/>
-      <text x="24" y="101" class="fit ink">Laravel 11 API + Sanctum</text>
+      <text x="24" y="101" class="fit ink">Laravel 13 API + Sanctum</text>
       <path d="M165 123 L165 142" class="thin dash"/>
       <rect x="0" y="148" width="158" height="42" rx="16" fill="#fff0c9"/>
       <text x="79" y="175" class="fit ink" text-anchor="middle">MySQL</text>

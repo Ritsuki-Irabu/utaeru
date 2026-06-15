@@ -26,13 +26,13 @@
 
 | 領域 | 技術 |
 | --- | --- |
-| バックエンド | PHP 8.2 / Laravel 11 |
+| バックエンド | PHP 8.3+ / Laravel 13 |
 | 開発環境 | WSL2 / Docker Desktop / Laravel Sail |
 | 認証 | Laravel Sanctum |
 | 権限管理 | Spatie Laravel Permission |
 | CSV出力 | Maatwebsite Laravel Excel |
 | 外部API | Spotify Web API（BPM取得） |
-| DB | MySQL 8.0 |
+| DB | MySQL 8.4 |
 | フロントエンド | Vue.js 3 + Vite |
 | 状態管理 | Pinia |
 | HTTP | Axios |
@@ -51,6 +51,14 @@
 - VS Code + Remote WSL（推奨）
 
 PHP / Composer / MySQL / Node.js は、原則として Laravel Sail のコンテナ内で利用する。
+Laravel 13 のため、PHP は 8.3 以上を前提とする。
+
+### 作業場所
+
+このプロジェクトは WSL 内の `~/projects/utaeru` で作業する。
+VS Code は Remote WSL で `~/projects/utaeru` を開き、Laravel Sail の操作も WSL 側で実行する。
+
+`/mnt/c`、`/mnt/d`、USBドライブ直下など Windows 側ファイルシステム上で Sail を動かすと、Docker の bind mount でファイルが正しく見えない場合がある。
 
 ### バックエンド
 
