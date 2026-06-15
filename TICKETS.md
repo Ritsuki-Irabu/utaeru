@@ -20,7 +20,7 @@
 
 | # | タイトル | ラベル | ステータス |
 | --- | --- | --- | --- |
-| #1 | 【backend】環境構築 | backend, learning | ⬜ |
+| #1 | 【backend】環境構築 | backend, learning | ✅ |
 | #2 | 【backend】DB設計・マイグレーション作成 | backend, learning | ⬜ |
 | #3 | 【backend】認証API（Sanctum） | backend, learning | ⬜ |
 | #4 | 【backend】ロール設定（Spatie Permission） | backend, learning | ⬜ |
@@ -41,7 +41,7 @@
 
 ## 環境構築メモ
 
-Issue #1 は WSL2 + Docker Desktop + Laravel Sail を前提に進める。
+Issue #1 は WSL2 + Docker Desktop + Laravel Sail を前提に、PHP 8.3+ / Laravel 13 で進める。
 
 - Laravel / Composer / npm / artisan は原則として Sail 経由で実行する
 - DB接続は Sail の `mysql` サービスを使用する

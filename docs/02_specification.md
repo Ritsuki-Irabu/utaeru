@@ -42,12 +42,12 @@
 | 項目 | 選択 | 理由 |
 | --- | --- | --- |
 | 開発環境 | WSL2 + Docker + Laravel Sail | 実務に近い再現性の高い環境で学習 |
-| バックエンド | Laravel 11（PHP 8.2） | 案件直結・最新版で学習 |
+| バックエンド | Laravel 13（PHP 8.3+） | 案件直結・最新版で学習 |
 | 認証 | Laravel Sanctum | SPA・API向け、案件直結 |
 | 権限管理 | Spatie Permission | admin/user のロール管理 |
 | CSV出力 | Laravel Excel | 業務系で頻出 |
 | 外部API | Spotify Web API | BPM（tempo）が取得可能 |
-| DB | MySQL 8.0 | 実務標準 |
+| DB | MySQL 8.4 | Laravel Sail 標準構成に合わせる |
 | フロントエンド | Vue.js 3 + Vite | 案件直結 |
 | 状態管理 | Pinia | Vue.js 3標準 |
 | HTTP通信 | Axios | Laravel APIとの連携 |
