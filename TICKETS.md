@@ -22,7 +22,7 @@
 | --- | --- | --- | --- |
 | #1 | 【backend】環境構築 | backend, learning | ✅ |
 | #2 | 【backend】DB設計・マイグレーション作成 | backend, learning | ✅ |
-| #3 | 【backend】認証API（Sanctum） | backend, learning | ⬜ |
+| #3 | 【backend】認証API（Sanctum） | backend, learning | ✅ |
 | #4 | 【backend】ロール設定（Spatie Permission） | backend, learning | ⬜ |
 | #5 | 【backend】公開曲マスタCRUD | backend, learning | ⬜ |
 | #6 | 【backend】Spotify API連携（BPM取得） | backend, learning | ⬜ |
