@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +20,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Role::firstOrCreate(['name' => 'admin']); // 管理者
+        Role::firstOrCreate(['name' => 'user']); // 一般ユーザー
+        // firstOrCreateは「すでにあれば使う、なければ作る」というメソッド
+
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => '管理者',
+                'password' => Hash::make('password'),
+            ],
+        );
+
+        $admin->assignRole('admin'); // 管理者を設定
+
         $user = User::updateOrCreate(
             ['email' => 'user@example.com'],
             [
@@ -26,6 +41,8 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
             ],
         );
+
+        $user->assignRole('user'); // ユーザーを設定
 
         $songs = collect([
             [
@@ -75,5 +92,6 @@ class DatabaseSeeder extends Seeder
         $mySong->tags()->syncWithoutDetaching([
             $tags['定番']->id,
         ]);
+
     }
 }
