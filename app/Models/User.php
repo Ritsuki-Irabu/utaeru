@@ -7,17 +7,18 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Sanctum\HasApiTokens;//認証トークン追加
+use Laravel\Sanctum\HasApiTokens; // 認証トークン追加
+use Spatie\Permission\Traits\HasRoles; // 「管理者」「ユーザー」などの権限認可
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * Get the attributes that should be cast.
@@ -32,7 +33,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function mySongs(): HasMany//一対多
+    public function mySongs(): HasMany// 一対多
     {
         return $this->hasMany(MySong::class);
     }

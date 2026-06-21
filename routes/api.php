@@ -28,3 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // 今使っているTokenを削除してログアウトする
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
+
+// admin ルートを追加
+Route::middleware(['auth:sanctum', 'role:admin'])->get('/admin/check', function () {
+    return response()->json(['message' => 'admin OK']);
+});
+// Route::get('/admin/check', ...)→URLの入り口
+// middleware()→ sanctumでは、ログイン済みか？Tokenは正しいか？roleは、 admin ロールを持っているか？　
