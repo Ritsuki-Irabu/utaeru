@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\SongController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,14 @@ Route::middleware('auth:sanctum')->group(function () {
     // POST /api/auth/logout
     // 今使っているTokenを削除してログアウトする
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/songs', [SongController::class, 'index']);
+
+    // songのルートを追加する
+    Route::middleware('role:admin')->group(function () {
+        Route::post('/songs', [SongController::class, 'store']);
+        Route::put('/songs/{song}', [SongController::class, 'update']);
+        Route::delete('/songs/{song}', [SongController::class, 'destroy']);
+    });
 });
 
 // admin ルートを追加
