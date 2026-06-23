@@ -30,8 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/songs', [SongController::class, 'index']);
 
+    // admin(管理者)の権限がついている
     // songのルートを追加する
     Route::middleware('role:admin')->group(function () {
+        // Spotify APIで曲候補とBPMを取得する
+        Route::get('/songs/spotify', [SongController::class, 'searchSpotify']);
         Route::post('/songs', [SongController::class, 'store']);
         Route::put('/songs/{song}', [SongController::class, 'update']);
         Route::delete('/songs/{song}', [SongController::class, 'destroy']);

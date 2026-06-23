@@ -172,6 +172,9 @@ Route::middleware('auth:sanctum')->group(function () {
 - Spotify Web API：Search API + Audio Features API
 - 認証方式：Client Credentials Flow
 
+> 実装メモ：2026-06時点で Audio Features API は Spotify 公式ドキュメント上 Deprecated 表記がある。
+> また、実API確認時に Search API が `Active premium subscription required for the owner of the app.` の 403 を返したため、本Issueでは `Http::fake()` によるFeature TestでLaravel側の連携処理を確認する。
+
 ### 5.2 BPM取得フロー
 
 ```
