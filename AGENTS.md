@@ -204,8 +204,8 @@ commit / push / PR / Issue更新などは、学習の主対象ではないため
 > ⚠️ Issueを完了したら必ずここを更新してください
 
 ```
-フェーズ：5 - 公開曲マスタCRUD
-対応中Issue：#5
+フェーズ：6 - Spotify API連携
+対応中Issue：#6
 ステータス：完了
 ```
 
@@ -220,7 +220,7 @@ commit / push / PR / Issue更新などは、学習の主対象ではないため
 | 3 | 認証API（Sanctum） | #3 | ✅ 完了 |
 | 4 | ロール設定（Spatie） | #4 | ✅ 完了 |
 | 5 | 公開曲マスタCRUD | #5 | ✅ 完了 |
-| 6 | Spotify API連携 | #6 | ⬜ 未着手 |
+| 6 | Spotify API連携 | #6 | ✅ 完了 |
 | 7 | マイリストCRUD + タグ付け | #7 | ⬜ 未着手 |
 | 8 | CSV出力（Laravel Excel） | #8 | ⬜ 未着手 |
 | 9 | Vue.js + PWA環境構築 | #9 | ⬜ 未着手 |
