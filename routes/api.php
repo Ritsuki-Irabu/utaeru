@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\MySongController;
+use App\Http\Controllers\MySongExportController;
 use App\Http\Controllers\SongController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // マイリストCRUD
     Route::get('/my-songs', [MySongController::class, 'index']);
+    Route::get('/my-songs/export', MySongExportController::class);
     Route::post('/my-songs', [MySongController::class, 'store']);
     Route::put('/my-songs/{mySong}', [MySongController::class, 'update']);
     Route::delete('/my-songs/{mySong}', [MySongController::class, 'destroy']);
