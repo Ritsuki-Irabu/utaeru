@@ -27,7 +27,7 @@
 | #5 | 【backend】公開曲マスタCRUD | backend, learning | ✅ |
 | #6 | 【backend】Spotify API連携（BPM取得） | backend, learning | ✅ |
 | #7 | 【backend】マイリストCRUD + タグ付け | backend, learning | ✅ |
-| #8 | 【backend】CSV出力（Laravel Excel） | backend, learning | ⬜ |
+| #8 | 【backend】CSV出力（Laravel Excel） | backend, learning | ✅ |
 | #9 | 【frontend】Vue.js + PWA 環境構築 | frontend, learning | ⬜ |
 | #10 | 【frontend】ログイン画面・Axios設定 | frontend, learning | ⬜ |
 | #11 | 【frontend】マイリスト画面 | frontend, learning | ⬜ |
