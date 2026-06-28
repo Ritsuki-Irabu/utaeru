@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-// ログイン画面ファイルを読み込む
+import MyListView from '../views/MyListView.vue'
 import LoginView from '../views/LoginView.vue'
 
 const routes = [
     {
+        // / にアクセスしたら、ログイン中ユーザーのマイリスト画面を表示する
         path: '/',
-        name: 'home',
-        component: HomeView,
+        name: 'my-list',
+        component: MyListView,
     },
     {
         // /login にアクセスしたら LoginView を表示する
