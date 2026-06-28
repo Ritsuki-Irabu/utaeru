@@ -31,7 +31,7 @@
 | #9 | 【frontend】Vue.js + PWA 環境構築 | frontend, learning | ✅ |
 | #10 | 【frontend】ログイン画面・Axios設定 | frontend, learning | ✅ |
 | #11 | 【frontend】マイリスト画面 | frontend, learning | ✅ |
-| #12 | 【frontend】リズム再生コンポーネント | frontend, learning | ⬜ |
+| #12 | 【frontend】リズム再生コンポーネント | frontend, learning | ✅ |
 | #13 | 【frontend】曲検索・追加画面 | frontend, learning | ⬜ |
 | #14 | 【frontend】管理者画面（曲マスタ管理） | frontend, learning | ⬜ |
 

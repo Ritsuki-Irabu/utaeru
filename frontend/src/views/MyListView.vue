@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
+import RhythmPlayer from '../components/RhythmPlayer.vue'
 import { useMySongsStore } from '../stores/mySongs'
 
 const mySongsStore = useMySongsStore()
@@ -48,6 +49,9 @@ onMounted(() => {
                         {{ tag.name }}
                     </li>
                 </ul>
+
+                <!-- songオブジェクトを渡して、BPMに合わせた視覚リズムを表示する -->
+                <RhythmPlayer :song="mySong.song" />
             </article>
         </section>
     </main>
