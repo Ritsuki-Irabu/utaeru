@@ -147,8 +147,86 @@ button:disabled {
 
 .error-message {
   margin: 0;
+  padding: 16px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
   color: #b91c1c;
   font-weight: 700;
+}
+
+.my-list {
+  display: grid;
+  gap: 24px;
+  box-sizing: border-box;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.page-header {
+  display: grid;
+  gap: 12px;
+}
+
+.status-message {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid #b9e6df;
+  border-radius: 8px;
+  background: #fff;
+  color: #355f5c;
+  font-weight: 700;
+}
+
+.song-list {
+  display: grid;
+  gap: 16px;
+}
+
+.song-card {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #b9e6df;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.song-card h2 {
+  margin: 0 0 6px;
+  color: #0f2928;
+  font-size: 1.25rem;
+}
+
+.artist,
+.bpm,
+.memo {
+  margin: 0;
+  color: #355f5c;
+}
+
+.bpm {
+  color: #0f766e;
+  font-weight: 800;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tag-list li {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ccfbf1;
+  color: #0f766e;
+  font-size: 0.85rem;
+  font-weight: 800;
 }
 
 @media (max-width: 640px) {
