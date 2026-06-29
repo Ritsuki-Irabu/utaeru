@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MyListView from '../views/MyListView.vue'
 import LoginView from '../views/LoginView.vue'
+import SongSearchView from '../views/SongSearchView.vue'
 
 const routes = [
     {
@@ -14,6 +15,12 @@ const routes = [
         path: '/login',
         name: 'login',
         component: LoginView,
+    },
+    {
+        // /songs にアクセスしたら、公開曲マスタの検索・追加画面を表示する
+        path: '/songs',
+        name: 'song-search',
+        component: SongSearchView,
     },
 ]
 
