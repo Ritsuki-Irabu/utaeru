@@ -184,6 +184,24 @@ button:disabled {
   gap: 16px;
 }
 
+.search-field {
+  display: grid;
+  gap: 8px;
+  color: #153b3a;
+  font-weight: 700;
+}
+
+.search-field input {
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  border: 1px solid #93d4ca;
+  border-radius: 8px;
+  color: #153b3a;
+  background: #fff;
+  font: inherit;
+}
+
 .song-card {
   display: grid;
   gap: 14px;
