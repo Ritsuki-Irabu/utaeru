@@ -33,7 +33,7 @@
 | #11 | 【frontend】マイリスト画面 | frontend, learning | ✅ |
 | #12 | 【frontend】リズム再生コンポーネント | frontend, learning | ✅ |
 | #13 | 【frontend】曲検索・追加画面 | frontend, learning | ✅ |
-| #14 | 【frontend】管理者画面（曲マスタ管理） | frontend, learning | ⬜ |
+| #14 | 【frontend】管理者画面（曲マスタ管理） | frontend, learning | ✅ |
 
 > ステータス凡例：⬜ 未着手 / 🔄 対応中 / ✅ 完了
 
