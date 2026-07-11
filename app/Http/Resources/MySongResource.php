@@ -16,6 +16,7 @@ class MySongResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            // フロントで扱いやすいよう、関連する曲情報をsongの中にまとめて返す
             'song' => [
                 'id' => $this->song?->id,
                 'title' => $this->song?->title,
@@ -24,6 +25,7 @@ class MySongResource extends JsonResource
                 'spotify_id' => $this->song?->spotify_id,
             ],
             'memo' => $this->memo,
+            // tagsはCollectionなので、必要なid/nameだけに整形して返す
             'tags' => $this->tags->map(fn ($tag) => [
                 'id' => $tag->id,
                 'name' => $tag->name,

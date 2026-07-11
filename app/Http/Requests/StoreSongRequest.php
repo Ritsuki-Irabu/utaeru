@@ -23,6 +23,7 @@ class StoreSongRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // 曲マスタはuser画面でも使うため、保存前に必須項目とBPM範囲をここで守る
             'title' => ['required', 'string', 'max:255'],
             'artist' => ['required', 'string', 'max:255'],
             'bpm' => ['required', 'integer', 'min:1', 'max:300'],

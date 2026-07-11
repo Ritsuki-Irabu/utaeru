@@ -30,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // POST /api/auth/logout
     // 今使っているTokenを削除してログアウトする
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+    // GET /api/songs
+    // user/adminどちらも使う公開曲マスタ一覧API
     Route::get('/songs', [SongController::class, 'index']);
 
     // マイリストCRUD
@@ -40,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/my-songs/{mySong}', [MySongController::class, 'destroy']);
 
     // admin(管理者)の権限がついている
-    // songのルートを追加する
+    // 曲マスタの登録・編集・削除はadminだけ操作できる
     Route::middleware('role:admin')->group(function () {
         // Spotify APIで曲候補とBPMを取得する
         Route::get('/songs/spotify', [SongController::class, 'searchSpotify']);

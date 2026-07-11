@@ -28,6 +28,7 @@ const filteredSongs = computed(() => {
     })
 })
 
+// 追加ボタンからmy_songs登録APIを呼び、処理中の曲だけボタン表示を切り替える
 const handleAdd = async (songId) => {
     successMessage.value = ''
     errorMessage.value = ''

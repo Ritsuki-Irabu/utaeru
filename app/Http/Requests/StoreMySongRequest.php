@@ -23,7 +23,7 @@ class StoreMySongRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // バリデーションを一元管理
+            // 登録時はsong_id必須、更新時は送られてきた場合だけ検証する
             'song_id' => $this->isMethod('post')
                 ? ['required', 'exists:songs,id']
                 : ['sometimes', 'required', 'exists:songs,id'],

@@ -14,6 +14,7 @@ class Tag extends Model
     //リレーション
     public function mySongs():BelongsToMany//多対多
     {
+        // 1つのタグは複数のマイリスト曲に付けられる
         return $this->belongsToMany(MySong::class,'my_song_tag');
     }
 }

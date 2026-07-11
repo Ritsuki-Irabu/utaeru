@@ -6,6 +6,7 @@ import AdminSongsView from '../views/AdminSongsView.vue'
 import { useAuthStore } from '../stores/auth'
 
 const routes = [
+    // Vue Routerでは、URLごとに表示するViewコンポーネントをここで対応させる
     {
         // / にアクセスしたら、ログイン中ユーザーのマイリスト画面を表示する
         path: '/',

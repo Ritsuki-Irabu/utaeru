@@ -17,6 +17,7 @@ class Song extends Model
     //リレーション
     public function mySongs(): HasMany
     {
+        // 1つの公開曲は、複数ユーザーのマイリストから参照される
         return $this->hasMany(MySong::class);
     }
 }

@@ -35,6 +35,7 @@ class User extends Authenticatable
 
     public function mySongs(): HasMany// 一対多
     {
+        // 1人のユーザーは複数のマイリスト曲を持つ
         return $this->hasMany(MySong::class);
     }
 }

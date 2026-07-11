@@ -12,7 +12,7 @@ class MySongController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        // マイリスト取得（本人のみ）
+        // ログインユーザー本人のマイリストだけを取得する
         $mySongs = MySong::with(['song', 'tags'])
             ->where('user_id', auth()->id())
             ->orderBy('created_at', 'desc')
@@ -23,14 +23,14 @@ class MySongController extends Controller
 
     public function store(StoreMySongRequest $request): JsonResponse
     {
-        // マイリストに曲を追加
+        // ログインユーザーのIDを使い、自分のマイリストとして曲を追加する
         $mySong = MySong::create([
             'user_id' => auth()->id(),
             'song_id' => $request->song_id,
             'memo' => $request->memo,
         ]);
 
-        // タグの付け外し（多対多）
+        // tag_ids が送られてきた場合だけ、中間テーブルのタグ紐付けを更新する
         if ($request->has('tag_ids')) {
             $mySong->tags()->sync($request->tag_ids);
         }
@@ -42,7 +42,7 @@ class MySongController extends Controller
 
     public function update(StoreMySongRequest $request, MySong $mySong): JsonResponse
     {
-        // マイリストのメモ・タグ編集（本人のみ）
+        // Policyで「このmy_songが本人のものか」を確認してから編集する
         $this->authorize('update', $mySong); // Policy で本人確認
 
         if ($request->has('memo')) {
@@ -60,7 +60,7 @@ class MySongController extends Controller
 
     public function destroy(MySong $mySong): JsonResponse
     {
-        // マイリストから曲を削除（本人のみ）
+        // Policyで本人確認してから、タグ紐付けとマイリスト本体を削除する
         $this->authorize('delete', $mySong); // Policy で本人確認
 
         $mySong->tags()->detach(); // 中間テーブルも削除

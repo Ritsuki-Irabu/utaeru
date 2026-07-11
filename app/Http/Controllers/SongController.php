@@ -15,32 +15,36 @@ class SongController extends Controller
 {
     public function __construct(private SpotifyService $spotify)
     {
-        // このControllerでは 「SpotifyService を使います」という宣言
+        // 外部API通信はControllerに直接書かず、SpotifyServiceへ任せる
     }
 
     public function index(): AnonymousResourceCollection
-    {// 曲一覧取得
+    {
+        // 公開曲マスタをタイトル順で取得し、ResourceでJSON形式を揃える
         $songs = Song::orderBy('title')->paginate(20);
 
         return SongResource::collection($songs);
     }
 
     public function store(StoreSongRequest $request): JsonResponse
-    {// 曲登録
+    {
+        // FormRequestで検証済みの値だけを使って曲を登録する
         $song = Song::create($request->validated());
 
         return response()->json(new SongResource($song), 201);
     }
 
     public function update(StoreSongRequest $request, Song $song): JsonResponse
-    {// 曲編集
+    {
+        // ルートモデルバインディングで受け取った曲を、検証済みデータで更新する
         $song->update($request->validated());
 
         return response()->json(new SongResource($song));
     }
 
     public function destroy(Song $song): JsonResponse
-    {// 曲削除
+    {
+        // admin専用ルートから呼ばれるため、ここでは曲マスタの削除処理に集中する
         $song->delete();
 
         return response()->json(['message' => '削除しました。']);
