@@ -12,6 +12,68 @@ body {
   margin: 0;
 }
 
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #b9e6df;
+  background: rgb(247 251 250 / 94%);
+  backdrop-filter: blur(12px);
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 920px;
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.app-brand {
+  color: #0f2928;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.app-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.app-links a {
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #355f5c;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-links a:hover,
+.app-links a.router-link-active {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+.logout-button {
+  min-height: 40px;
+  margin-left: auto;
+  padding: 0 12px;
+  border: 1px solid #93d4ca;
+  background: transparent;
+  color: #0f766e;
+  font-size: 0.9rem;
+}
+
+.logout-button:hover {
+  background: #ccfbf1;
+}
+
 #app {
   min-height: 100vh;
 }
@@ -169,6 +231,13 @@ button:disabled {
   gap: 12px;
 }
 
+.page-actions,
+.song-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .status-message {
   margin: 0;
   padding: 24px;
@@ -177,6 +246,36 @@ button:disabled {
   background: #fff;
   color: #355f5c;
   font-weight: 700;
+}
+
+.status-empty {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 24px;
+  border: 1px solid #b9e6df;
+  border-radius: 8px;
+  background: #fff;
+  color: #355f5c;
+  font-weight: 700;
+}
+
+.status-empty p {
+  margin: 0;
+}
+
+.primary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background: #0f766e;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .song-list {
@@ -261,6 +360,65 @@ button:disabled {
   background: #fff;
 }
 
+.my-song-edit-form {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #b9e6df;
+  border-radius: 8px;
+  background: #f7fbfa;
+}
+
+.my-song-edit-form label {
+  display: grid;
+  gap: 8px;
+  color: #153b3a;
+  font-weight: 700;
+}
+
+.my-song-edit-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #93d4ca;
+  border-radius: 8px;
+  color: #153b3a;
+  font: inherit;
+  resize: vertical;
+}
+
+.tag-fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+}
+
+.tag-fieldset legend {
+  width: 100%;
+  margin-bottom: 2px;
+  color: #153b3a;
+  font-weight: 700;
+}
+
+.tag-option {
+  display: inline-flex !important;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 6px !important;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ccfbf1;
+  color: #0f766e !important;
+  font-size: 0.85rem;
+  font-weight: 800 !important;
+}
+
+.tag-option input {
+  accent-color: #0f766e;
+}
+
 .song-card h2 {
   margin: 0 0 6px;
   color: #0f2928;
@@ -298,6 +456,23 @@ button:disabled {
 }
 
 @media (max-width: 640px) {
+  .app-nav {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .app-links {
+    order: 3;
+    width: 100%;
+  }
+
+  .logout-button {
+    margin-left: auto;
+  }
+
   .auth-panel {
     align-items: stretch;
     flex-direction: column;

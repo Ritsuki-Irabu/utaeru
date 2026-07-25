@@ -11,3 +11,15 @@ export const addMySong = (songId) => {
         song_id: songId,
     })
 }
+
+export const updateMySong = (mySongId, payload) => {
+    return apiClient.put(`/my-songs/${mySongId}`, payload)
+}
+
+export const deleteMySong = (mySongId) => {
+    return apiClient.delete(`/my-songs/${mySongId}`)
+}
+
+export const exportMySongs = () => {
+    return apiClient.get('/my-songs/export', { responseType: 'blob' })
+}

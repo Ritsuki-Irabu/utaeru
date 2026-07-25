@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\MySongController;
 use App\Http\Controllers\MySongExportController;
 use App\Http\Controllers\SongController;
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // GET /api/songs
     // user/adminどちらも使う公開曲マスタ一覧API
     Route::get('/songs', [SongController::class, 'index']);
+
+    // GET /api/tags
+    // マイリスト編集時に選択できるタグ一覧
+    Route::get('/tags', [TagController::class, 'index']);
 
     // マイリストCRUD
     Route::get('/my-songs', [MySongController::class, 'index']);

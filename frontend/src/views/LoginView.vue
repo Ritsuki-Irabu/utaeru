@@ -48,13 +48,13 @@ const handleSubmit = async () => {
                 <label>
                     メールアドレス
                     <!-- email入力欄とemailをつなぐ書き方 -->
-                    <input v-model="email" type="email" autocomplete="email" placeholder="user@example.com">
+                    <input v-model="email" type="email" autocomplete="email" placeholder="user@example.com" required>
                 </label>
 
                 <!-- パスワード入力欄とpasswordをつなぐ書き方 -->
                 <label>
                     パスワード
-                    <input v-model="password" type="password" autocomplete="current-password" placeholder="password">
+                    <input v-model="password" type="password" autocomplete="current-password" placeholder="password" required>
                 </label>
 
                 <p v-if="errorMessage" class="error-message">

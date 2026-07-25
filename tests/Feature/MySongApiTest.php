@@ -91,6 +91,22 @@ class MySongApiTest extends TestCase
             ->assertJsonValidationErrors(['song_id']);
     }
 
+    public function test_user_cannot_add_the_same_song_twice(): void
+    {
+        [$user, , $song] = $this->createUsersAndSong();
+
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/my-songs', ['song_id' => $song->id])
+            ->assertCreated();
+
+        $this->postJson('/api/my-songs', ['song_id' => $song->id])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['song_id']);
+
+        $this->assertDatabaseCount('my_songs', 1);
+    }
+
     public function test_owner_can_update_my_song_memo_and_tags(): void
     {
         [$user, , $song] = $this->createUsersAndSong();
