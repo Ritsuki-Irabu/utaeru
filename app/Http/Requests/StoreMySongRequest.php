@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMySongRequest extends FormRequest
 {
@@ -25,7 +26,12 @@ class StoreMySongRequest extends FormRequest
         return [
             // 登録時はsong_id必須、更新時は送られてきた場合だけ検証する
             'song_id' => $this->isMethod('post')
-                ? ['required', 'exists:songs,id']
+                ? [
+                    'required',
+                    'exists:songs,id',
+                    Rule::unique('my_songs', 'song_id')
+                        ->where(fn ($query) => $query->where('user_id', auth()->id())),
+                ]
                 : ['sometimes', 'required', 'exists:songs,id'],
             'memo' => ['nullable', 'string', 'max:1000'],
             'tag_ids' => ['nullable', 'array'],

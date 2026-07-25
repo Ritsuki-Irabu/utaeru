@@ -5,3 +5,7 @@ import apiClient from './client'
 export const login = (credentials) => {
     return apiClient.post('/auth/login', credentials)
 }
+
+export const logout = () => {
+    return apiClient.post('/auth/logout')
+}

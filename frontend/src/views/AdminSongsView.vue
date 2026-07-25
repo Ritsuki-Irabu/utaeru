@@ -157,11 +157,11 @@ const handleDelete = async (songId) => {
             </button>
         </form>
 
-        <p v-if="message" class="status-message">
+        <p v-if="message" class="status-message" aria-live="polite">
             {{ message }}
         </p>
 
-        <p v-if="errorMessage" class="error-message">
+        <p v-if="errorMessage" class="error-message" role="alert">
             {{ errorMessage }}
         </p>
 
