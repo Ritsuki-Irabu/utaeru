@@ -3,12 +3,16 @@ import MyListView from '../views/MyListView.vue'
 import LoginView from '../views/LoginView.vue'
 import SongSearchView from '../views/SongSearchView.vue'
 import AdminSongsView from '../views/AdminSongsView.vue'
+import PlaylistsView from '../views/PlaylistsView.vue'
+import PlaylistDetailView from '../views/PlaylistDetailView.vue'
+import SharedPlaylistView from '../views/SharedPlaylistView.vue'
+import SongDetailView from '../views/SongDetailView.vue'
 import { useAuthStore } from '../stores/auth'
 
 const routes = [
     // Vue Routerでは、URLごとに表示するViewコンポーネントをここで対応させる
     {
-        // / にアクセスしたら、ログイン中ユーザーのマイリスト画面を表示する
+        // / にアクセスしたら、ログイン中ユーザーのお気に入り画面を表示する
         path: '/',
         name: 'my-list',
         component: MyListView,
@@ -33,6 +37,31 @@ const routes = [
         name: 'admin-songs',
         component: AdminSongsView,
         meta: { requiresAuth: true, admin: true },
+    },
+    {
+        // 再生は曲詳細を開いたときだけ行う
+        path: '/songs/:id',
+        name: 'song-detail',
+        component: SongDetailView,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/playlists',
+        name: 'playlists',
+        component: PlaylistsView,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/playlists/:id',
+        name: 'playlist-detail',
+        component: PlaylistDetailView,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/shared/playlists/:token',
+        name: 'shared-playlist',
+        component: SharedPlaylistView,
+        meta: { requiresAuth: true },
     },
 ]
 

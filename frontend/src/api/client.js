@@ -1,8 +1,20 @@
 import axios from 'axios'
 
+const configuredApiUrl = (import.meta.env.VITE_API_URL || 'http://localhost/api').replace(/\/$/, '')
+
+// ViteをLAN公開したスマホからも、localhostをスマホ自身として解決しないようにする。
+// E2Eの127.0.0.1/localhost接続は従来どおり固定URLを使う。
+const apiBaseUrl = typeof window !== 'undefined'
+    && window.location.hostname !== 'localhost'
+    && window.location.hostname !== '127.0.0.1'
+    && /^https?:\/\/localhost(?::\d+)?/i.test(configuredApiUrl)
+    ? `${window.location.protocol}//${window.location.hostname}/api`
+    : configuredApiUrl
+
 // Laravel APIへ通信するための共通Axiosインスタンス
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    // .env未作成の初回起動でも、同一ホストのLaravel APIへ接続できる既定値を持たせる。
+    baseURL: apiBaseUrl,
     headers: {
         Accept: 'application/json',
     },

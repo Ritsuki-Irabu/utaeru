@@ -10,6 +10,14 @@ Vue.js 3 + Vite + PWA のフロントエンドです。
 ./vendor/bin/sail npm run dev --prefix frontend -- --host 0.0.0.0
 ```
 
+スマホ実機から確認する場合は、PCと同じWi-Fiへ接続し、次のコマンドでLAN公開します。
+
+```bash
+./vendor/bin/sail npm run dev:lan --prefix frontend
+```
+
+WindowsのIPv4アドレスを使って、スマホで`http://<PCのIPv4>:5173`を開いてください。このアプリはVue PWAのため、Expo Goではなくスマホのブラウザ（必要ならホーム画面追加）で確認します。
+
 ## ビルド
 
 ```bash

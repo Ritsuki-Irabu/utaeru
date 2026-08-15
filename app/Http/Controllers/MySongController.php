@@ -28,6 +28,7 @@ class MySongController extends Controller
             'user_id' => auth()->id(),
             'song_id' => $request->song_id,
             'memo' => $request->memo,
+            'bpm' => $request->bpm,
         ]);
 
         // tag_ids が送られてきた場合だけ、中間テーブルのタグ紐付けを更新する
@@ -45,8 +46,18 @@ class MySongController extends Controller
         // Policyで「このmy_songが本人のものか」を確認してから編集する
         $this->authorize('update', $mySong); // Policy で本人確認
 
+        $updates = [];
+
         if ($request->has('memo')) {
-            $mySong->update(['memo' => $request->memo]);
+            $updates['memo'] = $request->memo;
+        }
+
+        if ($request->has('bpm')) {
+            $updates['bpm'] = $request->bpm;
+        }
+
+        if ($updates !== []) {
+            $mySong->update($updates);
         }
 
         if ($request->has('tag_ids')) {

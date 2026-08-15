@@ -34,6 +34,7 @@ class StoreMySongRequest extends FormRequest
                 ]
                 : ['sometimes', 'required', 'exists:songs,id'],
             'memo' => ['nullable', 'string', 'max:1000'],
+            'bpm' => ['nullable', 'integer', 'between:40,300'],
             'tag_ids' => ['nullable', 'array'],
             'tag_ids.*' => ['exists:tags,id'],
         ];

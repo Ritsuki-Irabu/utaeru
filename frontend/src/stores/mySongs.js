@@ -3,7 +3,7 @@ import { fetchMySongs as fetchMySongsApi } from '../api/mySongs'
 
 export const useMySongsStore = defineStore('mySongs', {
     state: () => ({
-        // APIから取得したマイリストを保存する
+        // APIから取得したお気に入り（追加した全曲）を保存する
         songs: [],
         // 取得中かどうかを画面で判定するための状態
         isLoading: false,
@@ -23,13 +23,13 @@ export const useMySongsStore = defineStore('mySongs', {
             this.errorMessage = ''
 
             try {
-                // API関数を呼び、Laravelからマイリストを取得する
+                // API関数を呼び、Laravelからお気に入り一覧を取得する
                 const response = await fetchMySongsApi()
                 // LaravelのResourceレスポンスは data の中に一覧が入る
                 this.songs = response.data.data
             } catch {
                 // 失敗した場合は、画面表示用のエラーメッセージを保存する
-                this.errorMessage = 'マイリストの取得に失敗しました。'
+                this.errorMessage = 'お気に入りの取得に失敗しました。'
             } finally {
                 // 成功・失敗どちらでも取得処理は終了する
                 this.isLoading = false

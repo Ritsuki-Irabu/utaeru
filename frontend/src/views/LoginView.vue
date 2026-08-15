@@ -14,7 +14,7 @@ const isLoading = ref(false)
 const router = useRouter()
 const authStore = useAuthStore()
 
-// ログインAPIを呼び、成功したら認証情報をStoreへ保存してマイリスト画面へ移動する
+// ログインAPIを呼び、成功したら認証情報をStoreへ保存してお気に入り画面へ移動する
 const handleSubmit = async () => {
     errorMessage.value = ''
     isLoading.value = true

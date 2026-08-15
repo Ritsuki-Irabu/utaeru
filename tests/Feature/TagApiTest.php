@@ -30,4 +30,20 @@ class TagApiTest extends TestCase
             ->assertJsonPath('data.0.name', '定番')
             ->assertJsonPath('data.1.name', '高音注意');
     }
+
+    public function test_authenticated_user_can_create_a_tag_without_duplicates(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $this->postJson('/api/tags', ['name' => '今週練習'])
+            ->assertCreated()
+            ->assertJsonPath('name', '今週練習');
+
+        $this->postJson('/api/tags', ['name' => '今週練習'])
+            ->assertOk()
+            ->assertJsonPath('name', '今週練習');
+
+        $this->assertDatabaseCount('tags', 1);
+    }
 }

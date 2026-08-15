@@ -23,5 +23,16 @@ export default defineConfig({
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] },
         },
+        {
+            // WebKit未導入の環境でも実行できるよう、ChromiumでiPhone相当の幅・タッチ操作を再現する。
+            name: 'mobile',
+            use: {
+                ...devices['Desktop Chrome'],
+                viewport: { width: 390, height: 844 },
+                deviceScaleFactor: 3,
+                isMobile: true,
+                hasTouch: true,
+            },
+        },
     ],
 })

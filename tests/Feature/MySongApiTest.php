@@ -144,6 +144,26 @@ class MySongApiTest extends TestCase
         ]);
     }
 
+    public function test_owner_can_register_a_personally_measured_bpm(): void
+    {
+        [$user, , $song] = $this->createUsersAndSong();
+        $mySong = MySong::create([
+            'user_id' => $user->id,
+            'song_id' => $song->id,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->putJson("/api/my-songs/{$mySong->id}", ['bpm' => 128])
+            ->assertOk()
+            ->assertJsonPath('bpm', 128);
+
+        $this->assertDatabaseHas('my_songs', [
+            'id' => $mySong->id,
+            'bpm' => 128,
+        ]);
+    }
+
     public function test_user_cannot_update_other_users_my_song(): void
     {
         [$user, $otherUser, $song] = $this->createUsersAndSong();

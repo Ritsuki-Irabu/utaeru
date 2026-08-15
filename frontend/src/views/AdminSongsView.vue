@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { createSong, deleteSong, updateSong } from '../api/songs'
+import { createSong, deleteSong, refreshSongBpm, updateSong } from '../api/songs'
 import { useSongsStore } from '../stores/songs'
 
 const songsStore = useSongsStore()
@@ -9,6 +9,7 @@ const songsStore = useSongsStore()
 const form = ref({
     title: '',
     artist: '',
+    lyrics: '',
     bpm: '',
 })
 
@@ -17,6 +18,7 @@ const editingSongId = ref(null)
 const editingForm = ref({
     title: '',
     artist: '',
+    lyrics: '',
     bpm: '',
 })
 
@@ -25,6 +27,11 @@ const message = ref('')
 const errorMessage = ref('')
 const isSubmitting = ref(false)
 const processingSongId = ref(null)
+const refreshingBpmSongId = ref(null)
+
+const bpmValue = (value) => value === '' || value === null || value === undefined
+    ? null
+    : Number(value)
 
 // 管理画面を開いたタイミングで、公開曲マスタ一覧を取得する
 onMounted(() => {
@@ -35,6 +42,7 @@ const resetForm = () => {
     form.value = {
         title: '',
         artist: '',
+        lyrics: '',
         bpm: '',
     }
 }
@@ -49,7 +57,8 @@ const handleCreate = async () => {
         await createSong({
             title: form.value.title,
             artist: form.value.artist,
-            bpm: Number(form.value.bpm),
+            lyrics: form.value.lyrics.trim() || null,
+            bpm: bpmValue(form.value.bpm),
         })
 
         resetForm()
@@ -68,7 +77,8 @@ const startEdit = (song) => {
     editingForm.value = {
         title: song.title,
         artist: song.artist,
-        bpm: song.bpm,
+        lyrics: song.lyrics ?? '',
+        bpm: song.bpm ?? '',
     }
 }
 
@@ -78,6 +88,7 @@ const cancelEdit = () => {
     editingForm.value = {
         title: '',
         artist: '',
+        lyrics: '',
         bpm: '',
     }
 }
@@ -92,7 +103,8 @@ const handleUpdate = async (songId) => {
         await updateSong(songId, {
             title: editingForm.value.title,
             artist: editingForm.value.artist,
-            bpm: Number(editingForm.value.bpm),
+            lyrics: editingForm.value.lyrics.trim() || null,
+            bpm: bpmValue(editingForm.value.bpm),
         })
 
         cancelEdit()
@@ -126,6 +138,23 @@ const handleDelete = async (songId) => {
         processingSongId.value = null
     }
 }
+
+const handleRefreshBpm = async (songId) => {
+    message.value = ''
+    errorMessage.value = ''
+    refreshingBpmSongId.value = songId
+
+    try {
+        await refreshSongBpm(songId)
+        message.value = 'BPMを再取得しました。'
+        await songsStore.fetchSongs()
+    } catch (error) {
+        errorMessage.value = error.response?.data?.message
+            ?? 'BPMの再取得に失敗しました。'
+    } finally {
+        refreshingBpmSongId.value = null
+    }
+}
 </script>
 
 <template>
@@ -148,8 +177,13 @@ const handleDelete = async (songId) => {
             </label>
 
             <label>
+                歌詞（任意・許諾済み）
+                <textarea v-model="form.lyrics" rows="4" maxlength="20000" placeholder="権利確認済みの歌詞だけを入力してください"></textarea>
+            </label>
+
+            <label>
                 BPM
-                <input v-model="form.bpm" type="number" min="1" max="300" required>
+                <input v-model="form.bpm" type="number" min="1" max="300" placeholder="未登録でも保存できます">
             </label>
 
             <button type="submit" :disabled="isSubmitting">
@@ -191,8 +225,13 @@ const handleDelete = async (songId) => {
                     </label>
 
                     <label>
+                        歌詞（任意・許諾済み）
+                        <textarea v-model="editingForm.lyrics" rows="4" maxlength="20000" placeholder="権利確認済みの歌詞だけを入力してください"></textarea>
+                    </label>
+
+                    <label>
                         BPM
-                        <input v-model="editingForm.bpm" type="number" min="1" max="300" required>
+                        <input v-model="editingForm.bpm" type="number" min="1" max="300" placeholder="未登録でも保存できます">
                     </label>
 
                     <div class="admin-actions">
@@ -209,10 +248,25 @@ const handleDelete = async (songId) => {
                     <div>
                         <h2>{{ song.title }}</h2>
                         <p class="artist">{{ song.artist }}</p>
-                        <p class="bpm">BPM {{ song.bpm }}</p>
+                        <p class="bpm">BPM {{ song.bpm ?? '未登録' }}</p>
+                        <p v-if="song.playback_provider === 'youtube' && song.playback_key" class="playback-source">MV登録済み</p>
                     </div>
 
                     <div class="admin-actions">
+                        <RouterLink
+                            class="secondary-button admin-detail-link"
+                            :to="{ name: 'song-detail', params: { id: song.id }, query: { from: 'admin' } }"
+                        >
+                            詳細・MV
+                        </RouterLink>
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            :disabled="refreshingBpmSongId === song.id"
+                            @click="handleRefreshBpm(song.id)"
+                        >
+                            {{ refreshingBpmSongId === song.id ? '再取得中...' : 'BPMを再取得' }}
+                        </button>
                         <button type="button" @click="startEdit(song)">
                             編集
                         </button>

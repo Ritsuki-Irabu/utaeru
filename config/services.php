@@ -40,4 +40,24 @@ return [
         'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
     ],
 
+    'itunes' => [
+        'country' => env('ITUNES_COUNTRY', 'jp'),
+    ],
+
+    'getsongbpm' => [
+        'key' => env('GETSONGBPM_API_KEY'),
+    ],
+
+    'youtube' => [
+        'key' => env('YOUTUBE_API_KEY'),
+        'region' => env('YOUTUBE_REGION', 'JP'),
+        'max_results' => (int) env('YOUTUBE_MAX_RESULTS', 10),
+    ],
+
+    // 利用許諾済み歌詞サービスのAPI。HTMLスクレイピングは行わない。
+    'lyrics' => [
+        'url' => env('LYRICS_API_URL', 'https://lrclib.net/api/get'),
+        'token' => env('LYRICS_API_TOKEN'),
+    ],
+
 ];
