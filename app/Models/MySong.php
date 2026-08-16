@@ -12,6 +12,7 @@ class MySong extends Model
         'user_id',
         'song_id',
         'memo',
+        'bpm',
     ];
     
     //リレーション

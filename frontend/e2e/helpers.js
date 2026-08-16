@@ -38,10 +38,19 @@ export async function authenticate(page, currentUser = user) {
         localStorage.setItem('token', 'e2e-token')
         localStorage.setItem('user', JSON.stringify(authenticatedUser))
     }, { authenticatedUser: currentUser })
+
+    // 詳細画面の歌詞APIは各テストが必要な応答を明示できるよう、既定では未登録にする。
+    await page.route('**://localhost/api/songs/*/lyrics', async (route) => {
+        await route.fulfill({
+            status: 404,
+            contentType: 'application/json',
+            body: JSON.stringify({ data: null }),
+        })
+    })
 }
 
 export async function mockSongs(page, responseSongs = songs) {
-    await page.route('**://localhost/api/songs*', async (route) => {
+    await page.route('**://localhost/api/songs**', async (route) => {
         if (route.request().method() === 'GET') {
             await route.fulfill({
                 status: 200,

@@ -38,4 +38,14 @@ class User extends Authenticatable
         // 1人のユーザーは複数のマイリスト曲を持つ
         return $this->hasMany(MySong::class);
     }
+
+    public function playlists(): HasMany
+    {
+        return $this->hasMany(Playlist::class);
+    }
+
+    public function playlistSongs(): HasMany
+    {
+        return $this->hasMany(PlaylistSong::class, 'added_by_user_id');
+    }
 }

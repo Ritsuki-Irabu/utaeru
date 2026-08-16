@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Song;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -64,15 +65,18 @@ class SongApiTest extends TestCase
         $this->postJson('/api/songs', [
             'title' => 'テスト曲',
             'artist' => 'テストアーティスト',
+            'lyrics' => '権利確認済みの歌詞',
             'bpm' => 120,
         ])->assertCreated()
             ->assertJsonPath('title', 'テスト曲')
             ->assertJsonPath('artist', 'テストアーティスト')
+            ->assertJsonPath('lyrics', '権利確認済みの歌詞')
             ->assertJsonPath('bpm', 120);
 
         $this->assertDatabaseHas('songs', [
             'title' => 'テスト曲',
             'artist' => 'テストアーティスト',
+            'lyrics' => '権利確認済みの歌詞',
             'bpm' => 120,
         ]);
 
@@ -102,6 +106,115 @@ class SongApiTest extends TestCase
             'title' => 'テスト曲 更新',
             'bpm' => 125,
         ]);
+    }
+
+    public function test_admin_role_can_refresh_song_bpm(): void
+    {
+        $this->actingAdmin();
+
+        $song = Song::create([
+            'title' => '再取得曲',
+            'artist' => '再取得アーティスト',
+            'album' => 'アルバム',
+            'duration_ms' => 180000,
+            'bpm' => 90,
+        ]);
+
+        Http::fake([
+            'api.deezer.com/search/track*' => Http::response([
+                'data' => [[
+                    'id' => 987,
+                    'title' => '再取得曲',
+                    'artist' => ['name' => '再取得アーティスト'],
+                    'album' => ['title' => 'アルバム'],
+                    'duration' => 180,
+                ]],
+            ]),
+            'api.deezer.com/track/987' => Http::response(['bpm' => 123.4]),
+        ]);
+
+        $this->postJson("/api/songs/{$song->id}/bpm/refresh")
+            ->assertOk()
+            ->assertJsonPath('bpm', 123);
+
+        $this->assertDatabaseHas('songs', [
+            'id' => $song->id,
+            'bpm' => 123,
+        ]);
+    }
+
+    public function test_admin_role_can_refresh_song_bpm_from_spotify_when_deezer_has_no_value(): void
+    {
+        $this->actingAdmin();
+        config([
+            'services.spotify.client_id' => 'client-id',
+            'services.spotify.client_secret' => 'client-secret',
+        ]);
+
+        $song = Song::create([
+            'title' => 'Spotify補完曲',
+            'artist' => '補完アーティスト',
+            'bpm' => null,
+        ]);
+
+        Http::fake([
+            'api.deezer.com/search/track*' => Http::response([
+                'data' => [[
+                    'id' => 998,
+                    'title' => 'Spotify補完曲',
+                    'artist' => ['name' => '補完アーティスト'],
+                ]],
+            ]),
+            'api.deezer.com/track/998' => Http::response(['bpm' => 0]),
+            'accounts.spotify.com/api/token' => Http::response([
+                'access_token' => 'fallback-token',
+                'token_type' => 'Bearer',
+            ]),
+            'api.spotify.com/v1/search*' => Http::response([
+                'tracks' => ['items' => [[
+                    'id' => 'spotify-fallback-id',
+                    'name' => 'Spotify補完曲',
+                    'artists' => [['name' => '補完アーティスト']],
+                ]]],
+            ]),
+            'api.spotify.com/v1/audio-features/*' => Http::response(['tempo' => 128.6]),
+        ]);
+
+        $this->postJson("/api/songs/{$song->id}/bpm/refresh")
+            ->assertOk()
+            ->assertJsonPath('bpm', 129);
+
+        $this->assertDatabaseHas('songs', [
+            'id' => $song->id,
+            'bpm' => 129,
+        ]);
+    }
+
+    public function test_admin_role_can_refresh_song_bpm_from_getsongbpm_when_other_sources_are_empty(): void
+    {
+        $this->actingAdmin();
+        config(['services.getsongbpm.key' => 'test-key']);
+
+        $song = Song::create([
+            'title' => 'GetSongBPM補完曲',
+            'artist' => '補完アーティスト',
+            'bpm' => null,
+        ]);
+
+        Http::fake([
+            'api.deezer.com/search/track*' => Http::response(['data' => []]),
+            'api.getsong.co/search/*' => Http::response([
+                'search' => [[
+                    'title' => 'GetSongBPM補完曲',
+                    'artist' => ['name' => '補完アーティスト'],
+                    'tempo' => 104.7,
+                ]],
+            ]),
+        ]);
+
+        $this->postJson("/api/songs/{$song->id}/bpm/refresh")
+            ->assertOk()
+            ->assertJsonPath('bpm', 105);
     }
 
     public function test_admin_role_can_delete_song(): void

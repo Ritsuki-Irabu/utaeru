@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Http;
 
 class SpotifyService
 {
-    private string $clientId;
+    private ?string $clientId;
 
-    private string $clientSecret;
+    private ?string $clientSecret;
 
     private string $baseUrl = 'https://api.spotify.com/v1';
 
@@ -21,6 +21,10 @@ class SpotifyService
 
     public function getAccessToken(): string
     {
+        if (blank($this->clientId) || blank($this->clientSecret)) {
+            throw new \RuntimeException('Spotify APIの認証情報が設定されていません。');
+        }
+
         // Search APIなどを呼ぶ前に、Client ID/Secretを使って一時的なアクセストークンを取得する
         // asForm() は Spotify の token API が application/x-www-form-urlencoded 形式を期待するために付ける
         $response = Http::asForm()
@@ -34,7 +38,13 @@ class SpotifyService
         $response->throw();
 
         // SpotifyのレスポンスJSONから access_token だけを取り出して返す
-        return $response->json('access_token');
+        $token = $response->json('access_token');
+
+        if (! is_string($token) || $token === '') {
+            throw new \RuntimeException('Spotify APIからアクセストークンを取得できませんでした。');
+        }
+
+        return $token;
     }
 
     public function searchSong(string $query): array
@@ -70,9 +80,93 @@ class SpotifyService
                 // artists は配列なので、MVPでは先頭のアーティスト名を使う
                 'artist' => $track['artists'][0]['name'],
                 // tempo は小数で返ることがあるため、四捨五入して整数のBPMにする
-                'bpm' => (int) round($features['tempo'] ?? 0),
+                'bpm' => $this->normalizeBpm($features['tempo'] ?? null),
             ];
         })->toArray();
+    }
+
+    /**
+     * 曲名とアーティスト名からSpotifyの音声特徴量を検索し、BPMを返す。
+     *
+     * 検索結果の曲IDを先に確定してからAudio Features APIを呼ぶことで、
+     * タイトルの表記ゆれがあっても同一曲のBPMを取得しやすくする。
+     */
+    public function findBpm(string $title, string $artist, ?int $durationMs = null, ?string $album = null): ?int
+    {
+        $token = $this->getAccessToken();
+        $query = trim(sprintf('track:"%s" artist:"%s"', $title, $artist));
+
+        $searchResponse = Http::withToken($token)
+            ->get("{$this->baseUrl}/search", [
+                'q' => $query,
+                'type' => 'track',
+                'limit' => 5,
+            ]);
+
+        $searchResponse->throw();
+        $normalizedTitle = $this->normalizeText($title);
+        $normalizedArtist = $this->normalizeText($artist);
+        $normalizedAlbum = $this->normalizeText((string) $album);
+        $matched = collect($searchResponse->json('tracks.items', []))
+            ->map(function (array $track) use ($normalizedTitle, $normalizedArtist, $normalizedAlbum, $durationMs): array {
+                $trackTitle = $this->normalizeText((string) ($track['name'] ?? ''));
+                $trackArtist = $this->normalizeText((string) data_get($track, 'artists.0.name', ''));
+                $trackAlbum = $this->normalizeText((string) data_get($track, 'album.name', ''));
+                $score = 0;
+
+                $score += $trackTitle === $normalizedTitle ? 100 : 0;
+                $score += $trackArtist === $normalizedArtist ? 100 : 0;
+
+                if ($normalizedAlbum !== '' && $trackAlbum === $normalizedAlbum) {
+                    $score += 30;
+                }
+
+                if ($durationMs !== null && is_numeric($track['duration_ms'] ?? null)) {
+                    $durationDifference = abs((int) $track['duration_ms'] - $durationMs);
+                    $score += match (true) {
+                        $durationDifference <= 2000 => 40,
+                        $durationDifference <= 5000 => 25,
+                        $durationDifference <= 15000 => 5,
+                        default => -80,
+                    };
+                }
+
+                $versionText = mb_strtolower("{$trackTitle} {$trackAlbum}");
+                foreach (['live', 'ライブ', 'remix', 'リミックス', 'cover', 'カバー', 'acoustic', 'アコースティック', 'karaoke', 'カラオケ'] as $keyword) {
+                    if (str_contains($versionText, $keyword)) {
+                        $score -= 1000;
+                    }
+                }
+
+                return ['track' => $track, 'score' => $score];
+            })
+            ->sort(function (array $left, array $right): int {
+                $scoreDifference = ($right['score'] ?? 0) <=> ($left['score'] ?? 0);
+
+                if ($scoreDifference !== 0) {
+                    return $scoreDifference;
+                }
+
+                return strcmp(
+                    (string) data_get($left, 'track.id', ''),
+                    (string) data_get($right, 'track.id', ''),
+                );
+            })
+            ->first();
+
+        if (! is_array($matched) || ($matched['score'] ?? 0) < 150) {
+            return null;
+        }
+
+        $trackId = data_get($matched, 'track.id');
+
+        if (blank($trackId)) {
+            return null;
+        }
+
+        $features = $this->getAudioFeatures((string) $trackId, $token);
+
+        return $this->normalizeBpm($features['tempo'] ?? null);
     }
 
     private function getAudioFeatures(string $spotifyId, string $token): array
@@ -86,5 +180,24 @@ class SpotifyService
 
         // tempo などの音声特徴量が入ったJSON全体を配列として返す
         return $response->json();
+    }
+
+    private function normalizeBpm(mixed $tempo): ?int
+    {
+        if (! is_numeric($tempo)) {
+            return null;
+        }
+
+        $bpm = (int) round((float) $tempo);
+
+        return $bpm >= 1 && $bpm <= 300 ? $bpm : null;
+    }
+
+    private function normalizeText(string $value): string
+    {
+        $normalized = mb_strtolower($value);
+        $normalized = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $normalized) ?? $normalized;
+
+        return trim(preg_replace('/\s+/u', ' ', $normalized) ?? $normalized);
     }
 }

@@ -21,10 +21,20 @@ class MySongResource extends JsonResource
                 'id' => $this->song?->id,
                 'title' => $this->song?->title,
                 'artist' => $this->song?->artist,
+                'lyrics' => $this->song?->lyrics,
+                'opening_line' => $this->song?->opening_line,
+                'album' => $this->song?->album,
+                'artwork_url' => $this->song?->artwork_url,
                 'bpm' => $this->song?->bpm,
+                'duration_ms' => $this->song?->duration_ms,
                 'spotify_id' => $this->song?->spotify_id,
+                'playback_provider' => $this->song?->playback_provider,
+                'playback_key' => $this->song?->playback_key,
+                'playback_url' => $this->song?->playback_url,
             ],
             'memo' => $this->memo,
+            // 曲マスタのBPMとは別に、ユーザーがタップ計測した値を返す。
+            'bpm' => $this->bpm,
             // tagsはCollectionなので、必要なid/nameだけに整形して返す
             'tags' => $this->tags->map(fn ($tag) => [
                 'id' => $tag->id,

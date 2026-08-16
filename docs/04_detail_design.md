@@ -4,6 +4,11 @@
 **作成日：** 2026年6月
 **ステータス：** MVP確定
 
+> Issue #16（プレイリスト・共有・音声再生）の追加詳細設計は、[05_playlist_share_audio_design.md](05_playlist_share_audio_design.md)に分離しています。本書の既存Spotify BPM連携コードは過去Issueの設計例として残し、Issue #16では必須依存にしません。
+> Issue #17（ユーザー向け曲検索・カタログ取り込み）は、[06_music_catalog_design.md](06_music_catalog_design.md)を正とします。
+> Issue #18（お気に入り・プレイリストUX、曲詳細再生、ダークモード）は、[07_favorites_playlist_ux_design.md](07_favorites_playlist_ux_design.md)を正とします。
+> Issue #19（プレイリスト導線・CRUD責務整理）は、[08_playlist_navigation_ux_design.md](08_playlist_navigation_ux_design.md)を正とします。
+
 ---
 
 ## 1. バックエンド詳細設計（Laravel 13）
@@ -967,6 +972,7 @@ DB_DATABASE=utaeru
 DB_USERNAME=sail
 DB_PASSWORD=password
 
+# Spotify連携を使う場合のみ設定
 SPOTIFY_CLIENT_ID=your_spotify_client_id
 SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
 ```
