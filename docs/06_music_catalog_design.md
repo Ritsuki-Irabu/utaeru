@@ -1,7 +1,7 @@
 # Issue #17 ユーザー向け曲検索・カタログ取り込み設計書
 
 **対応Issue：** #17  
-**ステータス：** MVP実装済み（Provider拡張・本番接続は継続課題）
+**ステータス：** MVP実装済み（現行ProviderはiTunes Search API）
 
 ## 1. 目的
 
@@ -48,7 +48,7 @@ MusicSearchProvider
 └── resolve(providerKey): CanonicalSong
 ```
 
-初期Providerは公式カタログのメタデータ検索と公式ページURLを利用する。Providerは差し替え可能にし、Spotifyのように認証・利用条件が必要なサービスをアプリ本体へ直接結合しない。
+現行ProviderはiTunes Search APIのメタデータ検索と公式ページURLを利用する。Providerは差し替え可能にし、Spotifyのように認証・利用条件が必要なサービスをアプリ本体へ直接結合しない。
 
 Providerが返す共通項目：
 

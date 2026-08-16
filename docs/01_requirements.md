@@ -1,8 +1,8 @@
 # 要件定義書
 
-**バージョン：** 1.2
-**作成日：** 2026年7月
-**ステータス：** MVP確定・Issue #16設計反映
+**バージョン：** 1.3
+**作成・更新日：** 2026年8月
+**ステータス：** Issue #34までの現行実装を反映
 
 ---
 
@@ -92,8 +92,8 @@
 
 | # | 要件 | 優先度 |
 | --- | --- | --- |
-| F-28 | お気に入り・検索結果では曲詳細への導線だけを表示し、曲詳細を開いた後にBPMリズム・YouTube MV再生を操作できる | 必須 |
-| F-29 | プレイリスト・共有プレイリストでは詳細画面内で曲を再生できる | 必須 |
+| F-36 | お気に入り・検索結果では曲詳細への導線だけを表示し、曲詳細を開いた後にBPMリズム・YouTube MV再生を操作できる | 必須 |
+| F-37 | プレイリスト・共有プレイリストでは詳細画面内で曲を再生できる | 必須 |
 
 ### 4.4 タグ管理
 
@@ -183,5 +183,10 @@
 | 01_requirements.md | 要件定義書（背景・目的・機能要件・非機能要件） |
 | 02_specification.md | プロダクト仕様書（機能仕様・MVP定義） |
 | 03_basic_design.md | 基本設計書（DB設計・システム構成） |
-| 04_detail_design.md | 詳細設計書（既存機能の実装詳細） |
+| 04_detail_design.md | 詳細設計書（学習用のクラス別実装例） |
 | 05_playlist_share_audio_design.md | Issue #16プレイリスト・共有・音声再生設計書 |
+| 06_music_catalog_design.md | Issue #17ユーザー向け曲検索・カタログ取り込み設計書 |
+| 07_favorites_playlist_ux_design.md | Issue #18お気に入り・プレイリストUX設計書 |
+| 08_playlist_navigation_ux_design.md | Issue #19プレイリスト導線・責務整理設計書 |
+| 09_youtube_playback_design.md | Issue #20以降のYouTube再生・MV/BPM連動設計書 |
+| 10_current_implementation.md | Issue #34までの現行実装ガイド |

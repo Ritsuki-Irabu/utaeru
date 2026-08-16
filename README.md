@@ -12,7 +12,7 @@
 
 - [ウタエル 開発振り返りレポート](docs/development-review.md)
 
-レポートでは、アプリ概要、全体アーキテクチャ、Issue #1〜#14 の開発プロセス、代表機能の処理フロー、学んだこと、苦戦したこと、今後の改善を確認できます。
+レポートでは、アプリ概要、全体アーキテクチャ、Issue #1〜#34 の開発プロセス、代表機能の処理フロー、学んだこと、苦戦したこと、今後の改善を確認できます。
 
 ---
 
@@ -30,6 +30,8 @@
 | 練習用 | 本番直前用 |
 | 採点志向 | 不安解消志向 |
 
+現在は、基本のBPMリズム確認に加えて、曲検索・お気に入り・タグ・プレイリスト・共有リンク・歌詞表示・外部動画プレイヤー連携までを提供しています。曲詳細では、動画再生中の画面遷移、候補切り替え、動画情報を利用したリズム確認にも対応しています。
+
 ---
 
 ## 技術スタック
@@ -41,7 +43,7 @@
 | 認証 | Laravel Sanctum |
 | 権限管理 | Spatie Laravel Permission |
 | CSV出力 | Maatwebsite Laravel Excel |
-| 外部サービス | iTunes Search API（曲検索メタデータ）・公式音楽サービスのリンク/埋め込み |
+| 外部サービス | 曲情報・BPM補完・動画プレイヤーなどの外部API（任意） |
 | DB | MySQL 8.4 |
 | フロントエンド | Vue.js 3 + Vite |
 | 状態管理 | Pinia |
@@ -75,12 +77,12 @@ VS Code は Remote WSL で `~/projects/utaeru` を開き、Laravel Sail の操�
 Laravel / Sail の初回導入は Issue #1 で実施する。導入後の通常操作は以下。
 
 ```bash
-./vendor/bin/sail up -d
 cp .env.example .env
+./vendor/bin/sail up -d
 ./vendor/bin/sail artisan key:generate
 ```
 
-`.env` を編集してDB接続情報を設定する。Spotify連携を有効にする場合だけ、公式SDK用の設定を追加する。
+`.env` を編集してDB接続情報と必要な外部API設定を追加する。外部サービスを利用する場合は、各サービスの最新の利用規約、表示条件、権利条件を確認したうえで必要な設定だけ追加します。
 
 ```bash
 ./vendor/bin/sail artisan migrate --seed
@@ -91,7 +93,7 @@ cp .env.example .env
 ```bash
 ./vendor/bin/sail npm install --prefix frontend
 cp frontend/.env.example frontend/.env
-./vendor/bin/sail npm run dev --prefix frontend
+./vendor/bin/sail npm run dev --prefix frontend -- --host 0.0.0.0
 ```
 
 ---
@@ -106,7 +108,10 @@ DB_HOST=mysql
 DB_USERNAME=sail
 DB_PASSWORD=password
 
-# Spotify連携を使う場合のみ設定
+FRONTEND_URL=http://localhost:5173
+ITUNES_COUNTRY=jp
+
+# BPM補完・管理者の曲検索を使う場合に必要な設定
 SPOTIFY_CLIENT_ID=your_client_id
 SPOTIFY_CLIENT_SECRET=your_client_secret
 
@@ -116,23 +121,18 @@ GETSONGBPM_API_KEY=your_getsongbpm_api_key
 
 GetSongBPMを使う場合は、同サービスの利用規約とバックリンク要件を確認してください。未設定でも管理者によるBPM手動入力は利用できます。
 
-### 歌詞API（任意）
+### 外部コンテンツ・APIの利用
 
-歌詞は曲詳細を開いたときにLRCLIB APIから曲名・アーティスト名で取得します。別のAPIを使う場合は、`title` と `artist` のクエリを受け、`lyrics`（歌詞本文）と任意の `source_url`（提供元ページ）をJSONで返すAPIへ差し替えられます。
+歌詞、画像、動画、音楽メタデータなどの外部コンテンツを利用する場合は、対象サービスの利用規約、表示・リンク要件、著作権その他の権利関係を事前に確認してください。本リポジトリは外部コンテンツの利用許諾を提供するものではありません。
 
-```dotenv
-LYRICS_API_URL=https://lrclib.net/api/get
-LYRICS_API_TOKEN=your_token
-```
+公開環境では、利用するサービスごとの認証情報を環境変数で管理し、必要な帰属表示・リンク・プライバシー対応を行ってください。具体的な接続先や設定値は、利用する環境の要件に合わせて管理します。
 
-未設定でもLRCLIBを既定取得先として使用します。歌詞が見つからない場合は「歌詞はまだ登録されていません」と表示されます。管理者が登録した歌詞は常に外部APIより優先されます。
+### 動画候補検索APIキー（`.env`）
 
-### YouTube Data APIキー（`.env`）
-
-YouTube未登録曲のMV候補検索を使う場合だけ設定します。プロジェクト直下の`.env`を開き、次の行の`=`の右側へAPIキーを貼り付けてください。APIキーの値はGitやチャットへ貼り付けないでください。
+外部動画の候補検索を使う場合だけ設定します。プロジェクト直下の`.env`を開き、APIキーの値はGitやチャットへ貼り付けないでください。
 
 ```dotenv
-# YouTube Data API v3（MV候補検索用）
+# 外部動画API（候補検索用）
 YOUTUBE_API_KEY=ここに取得したAPIキー
 YOUTUBE_REGION=JP
 YOUTUBE_MAX_RESULTS=10
@@ -149,6 +149,8 @@ YOUTUBE_MAX_RESULTS=10
 ```
 VITE_API_URL=http://localhost/api
 ```
+
+外部動画APIを使わない場合でも、登録済みの動画IDがある曲は再生できます。候補検索にだけAPIキーが必要です。
 
 ### スマホ実機での確認（Vue PWA）
 
@@ -204,6 +206,7 @@ VITE_API_URL=http://localhost/api
 Playwrightの画面テスト（デスクトップChrome・390×844モバイルエミュレーション）を実行する。
 
 ```bash
+./vendor/bin/sail artisan test
 ./vendor/bin/sail npm --prefix frontend run test:e2e
 ```
 
@@ -229,7 +232,8 @@ Playwrightの画面テスト（デスクトップChrome・390×844モバイル�
 - [ユーザー向け曲検索・カタログ取り込み設計書](docs/06_music_catalog_design.md)
 - [お気に入り・プレイリストUX設計書](docs/07_favorites_playlist_ux_design.md)
 - [プレイリスト導線・責務整理設計書](docs/08_playlist_navigation_ux_design.md)
-- [YouTube公式プレイヤー連携設計書](docs/09_youtube_playback_design.md)
+- [動画プレイヤー連携設計書](docs/09_youtube_playback_design.md)
+- [現行実装ガイド](docs/10_current_implementation.md)
 
 ---
 

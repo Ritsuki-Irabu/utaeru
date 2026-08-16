@@ -1,13 +1,14 @@
 # 詳細設計書
 
-**バージョン：** 1.0
-**作成日：** 2026年6月
-**ステータス：** MVP確定
+**バージョン：** 1.1
+**作成・更新日：** 2026年8月
+**ステータス：** 基礎実装の学習用詳細設計（現行コードの横断説明はIssue #34対応済み）
 
 > Issue #16（プレイリスト・共有・音声再生）の追加詳細設計は、[05_playlist_share_audio_design.md](05_playlist_share_audio_design.md)に分離しています。本書の既存Spotify BPM連携コードは過去Issueの設計例として残し、Issue #16では必須依存にしません。
 > Issue #17（ユーザー向け曲検索・カタログ取り込み）は、[06_music_catalog_design.md](06_music_catalog_design.md)を正とします。
 > Issue #18（お気に入り・プレイリストUX、曲詳細再生、ダークモード）は、[07_favorites_playlist_ux_design.md](07_favorites_playlist_ux_design.md)を正とします。
 > Issue #19（プレイリスト導線・CRUD責務整理）は、[08_playlist_navigation_ux_design.md](08_playlist_navigation_ux_design.md)を正とします。
+> Issue #20以降のYouTube公式プレイヤー、歌詞、個人BPM、MV/BPM連動、画面遷移は、[09_youtube_playback_design.md](09_youtube_playback_design.md)と[10_current_implementation.md](10_current_implementation.md)を正とします。本書には初期実装時のコード例が残っているため、現在のクラス名・API・設定値をそのままコピーする場合は、必ず現行ソースコードと照合してください。
 
 ---
 

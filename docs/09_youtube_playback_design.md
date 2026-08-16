@@ -1,4 +1,6 @@
-# Issue #20 YouTube MV再生設計
+# Issue #20〜#34 YouTube MV・BPM連動設計
+
+**更新：** 2026年8月 / Issue #34完了時点
 
 ## 目的
 
